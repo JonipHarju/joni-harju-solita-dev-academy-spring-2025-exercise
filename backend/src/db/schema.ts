@@ -6,11 +6,11 @@ import {
   numeric,
 } from "drizzle-orm/pg-core";
 
-export const electricityData = pgTable("electricity", {
+export const electricityData = pgTable("electricitydata", {
   id: integer("id").primaryKey().generatedAlwaysAsIdentity(),
   date: date("date").notNull(),
-  startTime: timestamp("startTime", { withTimezone: false }).notNull(),
-  productionAmount: numeric("productionAmount", { precision: 11, scale: 5 }),
-  consumptionAmount: numeric("consumptionAmount", { precision: 11, scale: 3 }),
-  hourlyPrice: numeric("hourlyPrice", { precision: 6, scale: 3 }),
+  startTime: timestamp("starttime", { withTimezone: false }).notNull(),
+  productionAmount: numeric("productionamount", { precision: 11, scale: 5 }),
+  consumptionAmount: numeric("consumptionamount", { precision: 11, scale: 3 }),
+  hourlyPrice: numeric("hourlyprice", { precision: 6, scale: 3 }),
 });

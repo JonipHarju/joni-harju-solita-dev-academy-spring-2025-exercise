@@ -34,7 +34,6 @@ const DailyStatsTableContainer: React.FC = () => {
 
   // Applied filters.
   // When the use clicks the 'Get Data' button, the pending filters are applied to these states.
-  // todo why
   const [appliedFilters, setAppliedFilters] = useState({
     search: "",
     minProduction: undefined as number | undefined,

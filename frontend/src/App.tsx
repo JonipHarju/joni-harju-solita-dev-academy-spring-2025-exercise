@@ -1,7 +1,10 @@
+import DailyStatsTableContainer from "./components/DailyStatsTable";
 function App() {
   return (
     <>
-      <p>test</p>
+      <div className="bg-black w-full min-h-screen  ">
+        <DailyStatsTableContainer />
+      </div>
     </>
   );
 }

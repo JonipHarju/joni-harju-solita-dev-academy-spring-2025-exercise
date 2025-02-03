@@ -1,3 +1,4 @@
+import React from "react";
 import {
   LineChart,
   Line,
@@ -9,17 +10,44 @@ import {
   Bar,
   ResponsiveContainer,
   Legend,
+  TooltipProps,
 } from "recharts";
-import { calculateDomain } from "../lib/utils";
+import { formatNumber, formatHour, calculateDomain } from "../utils/formatters";
+import { ModalData } from "../../interfaces";
 
 interface DayDetailsModalProps {
   modalOpen: boolean;
-  modalData: any;
+  modalData: ModalData | null;
   modalLoading: boolean;
   modalError: string;
   onClose: () => void;
 }
 
+// custom tooltip for the charts when hovering over the data points
+const CustomTooltip: React.FC<TooltipProps<number, string>> = ({
+  active,
+  payload,
+}) => {
+  if (active && payload && payload.length) {
+    // extract the start time of the hoevered data point
+    const hour = formatHour(payload[0].payload.startTime);
+    return (
+      <div className="p-2 bg-white text-black rounded shadow-md">
+        <p className="font-semibold">Time: {hour}</p>
+        {payload.map((entry, index) => (
+          <p key={index} className="text-sm">
+            {entry.name}: {formatNumber(entry.value ?? 0, 2)}
+            {/* Displays the data name production/consumption and its corresponding value, formatted to 2 decimal places. 
+            0 is a fallback for when entry.value is undefined */}
+          </p>
+        ))}
+      </div>
+    );
+  }
+  return null;
+};
+
+// modal displaying the day specific statistics with charts
 const DayDetailsModal: React.FC<DayDetailsModalProps> = ({
   modalOpen,
   modalData,
@@ -29,38 +57,11 @@ const DayDetailsModal: React.FC<DayDetailsModalProps> = ({
 }) => {
   if (!modalOpen) return null;
 
-  const formatNumber = (value: number | string, fractionDigits: number = 2) => {
-    const num = typeof value === "number" ? value : parseFloat(value);
-    if (isNaN(num)) return value;
-    return num.toLocaleString("en-US", {
-      minimumFractionDigits: fractionDigits,
-      maximumFractionDigits: fractionDigits,
-    });
-  };
-
-  const formatHour = (time: string) => time.slice(11, 16);
-
-  // Calculate the domain of the y-axis based on the data. Allow negative values for specified charts
-
-  const CustomTooltip = ({ active, payload }: any) => {
-    if (active && payload && payload.length) {
-      const hour = formatHour(payload[0].payload.startTime);
-      return (
-        <div className="p-2 bg-white text-black rounded shadow-md">
-          <p className="font-semibold">Time: {hour}</p>
-          {payload.map((entry: any, index: number) => (
-            <p key={index} className="text-sm">
-              {entry.name}: {formatNumber(entry.value, 2)}
-            </p>
-          ))}
-        </div>
-      );
-    }
-    return null;
-  };
-
   return (
-    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+    <div
+      className="fixed inset-0 bg-black/50 flex items-center justify-center z-50"
+      onClick={onClose}
+    >
       <div className="bg-[#0f172a] text-white p-6 rounded-lg shadow-lg w-11/12 max-w-4xl max-h-[90vh] overflow-y-auto">
         <div className="flex justify-between items-center border-b pb-2 mb-4 border-gray-700">
           <h2 className="text-xl font-bold">
@@ -116,7 +117,7 @@ const DayDetailsModal: React.FC<DayDetailsModalProps> = ({
               <ResponsiveContainer width="100%" height={300}>
                 <LineChart
                   data={modalData.hourlyData}
-                  margin={{ top: 20, right: 30, left: 80, bottom: 30 }} // Add margins
+                  margin={{ top: 20, right: 20, left: 30, bottom: 30 }}
                 >
                   <CartesianGrid strokeDasharray="3 3" />
                   <XAxis dataKey="startTime" tickFormatter={formatHour} />
@@ -127,7 +128,7 @@ const DayDetailsModal: React.FC<DayDetailsModalProps> = ({
                       false
                     )}
                     tickFormatter={(val) => formatNumber(val, 0)}
-                    scale="auto" // Ensure dynamic scaling
+                    scale="auto"
                   />
                   <Tooltip content={<CustomTooltip />} />
                   <Legend />
@@ -146,7 +147,7 @@ const DayDetailsModal: React.FC<DayDetailsModalProps> = ({
               <ResponsiveContainer width="100%" height={300}>
                 <LineChart
                   data={modalData.hourlyData}
-                  margin={{ top: 20, right: 30, left: 80, bottom: 30 }} // Add margins
+                  margin={{ top: 20, right: 20, left: 30, bottom: 30 }}
                 >
                   <CartesianGrid strokeDasharray="3 3" />
                   <XAxis dataKey="startTime" tickFormatter={formatHour} />
@@ -157,7 +158,7 @@ const DayDetailsModal: React.FC<DayDetailsModalProps> = ({
                       false
                     )}
                     tickFormatter={(val) => formatNumber(val, 0)}
-                    scale="auto" // Ensure dynamic scaling
+                    scale="auto"
                   />
                   <Tooltip content={<CustomTooltip />} />
                   <Legend />
@@ -176,7 +177,7 @@ const DayDetailsModal: React.FC<DayDetailsModalProps> = ({
               <ResponsiveContainer width="100%" height={300}>
                 <BarChart
                   data={modalData.hourlyData}
-                  margin={{ top: 20, right: 30, left: 80, bottom: 30 }} // Add margins
+                  margin={{ top: 20, right: 20, left: 30, bottom: 30 }}
                 >
                   <CartesianGrid strokeDasharray="3 3" />
                   <XAxis dataKey="startTime" tickFormatter={formatHour} />
@@ -187,7 +188,7 @@ const DayDetailsModal: React.FC<DayDetailsModalProps> = ({
                       true
                     )}
                     tickFormatter={(val) => formatNumber(val, 2)}
-                    scale="auto" // Ensure dynamic scaling
+                    scale="auto"
                   />
                   <Tooltip content={<CustomTooltip />} />
                   <Legend />

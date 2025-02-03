@@ -7,26 +7,13 @@ import {
   getPaginationRowModel,
   flexRender,
 } from "@tanstack/react-table";
-import { formatNumber } from "../lib/utils";
+import { formatNumber } from "../utils/formatters";
+import { DailyStat, DataTableProps } from "../../interfaces";
 
-export type DailyStat = {
-  date: string | null;
-  totalproduction: number | string | null;
-  totalconsumption: number | string | null;
-  avgprice: number | string | null;
-  longestnegativestreak: number | string | null;
-};
-
-interface DataTableProps {
-  data: DailyStat[];
-  loading: boolean;
-  limit: number;
-  onOpenModal: (date: string) => void;
-  onSort: (columnId: string) => void;
-  orderBy: string;
-  order: string;
-}
-
+// DataTable displays the the days listed in rows showing their daily stats.
+// Table supports sorting by columns and has filters and search function .
+// it is paginated to show a fixed number of rows per page.
+// On loading states the table shows a skeleton loader to the user.
 const DataTable: React.FC<DataTableProps> = ({
   data,
   loading,
@@ -36,8 +23,10 @@ const DataTable: React.FC<DataTableProps> = ({
   orderBy,
   order,
 }) => {
+  // wether to show the skeleton ui or not
   const [showSkeleton, setShowSkeleton] = useState(false);
 
+  // useEffect hook to prevent flickering of the ui on really fast loading times with 200ms delay. .
   useEffect(() => {
     let timeout: number;
     if (loading) {
@@ -48,6 +37,7 @@ const DataTable: React.FC<DataTableProps> = ({
     return () => window.clearTimeout(timeout);
   }, [loading]);
 
+  // Column definitions for  TanStack Table.
   const columns: ColumnDef<DailyStat>[] = [
     { accessorKey: "date", header: "Date" },
     { accessorKey: "totalconsumption", header: "Total Consumption (MWh)" },
@@ -59,6 +49,7 @@ const DataTable: React.FC<DataTableProps> = ({
     },
   ];
 
+  // initialize the table
   const table = useReactTable({
     data,
     columns,
@@ -70,6 +61,7 @@ const DataTable: React.FC<DataTableProps> = ({
   return (
     <div className="bg-gray-900 text-white shadow-md rounded-lg">
       <table className="min-w-[670px] w-full text-left border-collapse table-fixed">
+        {/* //table header. inlude the sorting icons for the columns for the colums based on the  */}
         <thead className="bg-gray-800">
           {table.getHeaderGroups().map((headerGroup) => (
             <tr key={headerGroup.id} className="border-b border-gray-700">
@@ -109,6 +101,7 @@ const DataTable: React.FC<DataTableProps> = ({
             ))
           ) : table.getRowModel().rows.length > 0 ? (
             table.getRowModel().rows.map((row) => (
+              //h-[3.0625rem] is to exactly match the height of the skeleton loader to the real cell size to prevent flickering
               <tr
                 key={row.id}
                 className="border-b border-gray-700 hover:bg-gray-800 h-[3.0625rem]"

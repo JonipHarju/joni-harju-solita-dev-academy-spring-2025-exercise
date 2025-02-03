@@ -1,12 +1,10 @@
-// components/PaginationControls.tsx
 import React from "react";
+import { PaginationControlsProps } from "../../interfaces";
 
-interface PaginationControlsProps {
-  page: number;
-  setPage: (page: number) => void;
-  totalPages: number;
-}
-
+// pagination buttons to handle navigation between table pages.
+// page  - current page number
+// setPage - function to set the current page number
+// totalPages - disable the next button when the current page is the last page.
 const PaginationControls: React.FC<PaginationControlsProps> = ({
   page,
   setPage,

@@ -83,7 +83,6 @@ export const fetchDailyStats = async (
       orderDirection
     );
 
-    console.log(stats);
     res.json(stats);
   } catch (error: any) {
     next(error);

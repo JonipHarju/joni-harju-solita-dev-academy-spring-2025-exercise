@@ -68,8 +68,6 @@ const DailyStatsTableContainer: React.FC = () => {
     Record<string, ModalData>
   >({});
 
-  console.log(modalData, "modalData is here");
-
   // If the fetched data.length is equal to the limit, then there are more pages to fetch.
   // therefore allow the user to press next button for the pagination.
   const computedTotalPages = data.length === limit ? page + 1 : page;

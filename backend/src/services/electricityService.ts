@@ -19,7 +19,6 @@ export const getDailyStats = async (
   orderDirection: "ASC" | "DESC" = "DESC"
 ) => {
   const offset = (page - 1) * limit; // pagination offset
-
   /**
    * Overview of the query:
    *

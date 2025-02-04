@@ -6,65 +6,32 @@ import {
   getCheapestHour,
   getHourlyData,
 } from "../services/electricityService";
+import { QueryParamsDailyStats, QueryParamsDayStats } from "../interfaces";
+import { validateDailyStatsQuery } from "../validators/validateDailyStats";
+// Define the expected query parameters
 
 // fetches daily stats for multiple days. supports pagination, filtering, sorting and searching by date
 export const fetchDailyStats = async (
-  req: Request,
+  req: Request<{}, {}, {}, QueryParamsDailyStats>,
   res: any,
   next: NextFunction
 ) => {
   try {
-    // pagination parameters from the query.
-    const page = Math.max(parseInt(req.query.page as string) || 1, 1); // math.max avoids negative page numbers and just returns the first page
-    const limit = parseInt(req.query.limit as string) || 10; // default page limit to 10
-    const searchQuery = req.query.search as string;
-
-    // extract filtering parameters from the query
-    const minProduction = req.query.minProduction
-      ? parseFloat(req.query.minProduction as string)
-      : undefined;
-    const maxProduction = req.query.maxProduction
-      ? parseFloat(req.query.maxProduction as string)
-      : undefined;
-    const minConsumption = req.query.minConsumption
-      ? parseFloat(req.query.minConsumption as string)
-      : undefined;
-    const maxConsumption = req.query.maxConsumption
-      ? parseFloat(req.query.maxConsumption as string)
-      : undefined;
-    const minPrice = req.query.minPrice
-      ? parseFloat(req.query.minPrice as string)
-      : undefined;
-    const maxPrice = req.query.maxPrice
-      ? parseFloat(req.query.maxPrice as string)
-      : undefined;
-    const minNegativeStreak = req.query.minNegativeStreak
-      ? parseInt(req.query.minNegativeStreak as string)
-      : undefined;
-    const maxNegativeStreak = req.query.maxNegativeStreak
-      ? parseInt(req.query.maxNegativeStreak as string)
-      : undefined;
-
-    // sorting options
-    const orderByColumn = (req.query.orderBy as string) || "date";
-    const orderDirection = req.query.order === "asc" ? "ASC" : "DESC";
-
-    // validate the number query parameters
-    const validateNumber = (value: any) =>
-      value !== undefined && isNaN(value) ? false : true;
-
-    if (
-      !validateNumber(minProduction) ||
-      !validateNumber(maxProduction) ||
-      !validateNumber(minConsumption) ||
-      !validateNumber(maxConsumption) ||
-      !validateNumber(minPrice) ||
-      !validateNumber(maxPrice) ||
-      !validateNumber(minNegativeStreak) ||
-      !validateNumber(maxNegativeStreak)
-    ) {
-      return res.status(400).json({ error: "Invalid number format." });
-    }
+    const {
+      page,
+      limit,
+      searchQuery,
+      minProduction,
+      maxProduction,
+      minConsumption,
+      maxConsumption,
+      minPrice,
+      maxPrice,
+      minNegativeStreak,
+      maxNegativeStreak,
+      orderByColumn,
+      orderDirection,
+    } = validateDailyStatsQuery(req);
 
     // fetch all daily stats based on the query parameters
     const stats = await getDailyStats(
@@ -91,7 +58,7 @@ export const fetchDailyStats = async (
 
 // fetches  statistic for a given date.
 export const fetchDayStats = async (
-  req: Request,
+  req: Request<QueryParamsDayStats>,
   res: any,
   next: NextFunction
 ) => {

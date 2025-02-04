@@ -1,4 +1,4 @@
-const backendUrl = process.env.BACKEND_URL || "http://localhost:3010";
+const backendUrl = import.meta.env.VITE_BACKEND_URL || "http://localhost:3010";
 
 export async function getDailyStats(query: string) {
   try {

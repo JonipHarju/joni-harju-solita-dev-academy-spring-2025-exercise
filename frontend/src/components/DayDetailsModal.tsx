@@ -13,7 +13,7 @@ import {
   TooltipProps,
 } from "recharts";
 import { formatNumber, formatHour, calculateDomain } from "../utils/formatters";
-import { ModalData } from "../../interfaces";
+import { ModalData } from "../interfaces";
 
 interface DayDetailsModalProps {
   modalOpen: boolean;

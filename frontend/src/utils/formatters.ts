@@ -1,4 +1,4 @@
-import { HourlyData } from "../../interfaces";
+import { HourlyData } from "../interfaces";
 
 // Formats a number or string into a localized string with a fixed number of decimals.
 export function formatNumber(

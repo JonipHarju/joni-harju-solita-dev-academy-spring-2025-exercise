@@ -1,5 +1,5 @@
 import React from "react";
-import { PaginationControlsProps } from "../../interfaces";
+import { PaginationControlsProps } from "../interfaces";
 
 // pagination buttons to handle navigation between table pages.
 // page  - current page number

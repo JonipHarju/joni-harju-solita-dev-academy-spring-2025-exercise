@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { FilterControlsProps, FiltersProps } from "../../interfaces";
+import { FilterControlsProps, FiltersProps } from "../interfaces";
 
 /**
  * This component is responsible for rendering the filtering options.

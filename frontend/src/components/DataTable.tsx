@@ -8,7 +8,7 @@ import {
   flexRender,
 } from "@tanstack/react-table";
 import { formatNumber } from "../utils/formatters";
-import { DailyStat, DataTableProps } from "../../interfaces";
+import { DailyStat, DataTableProps } from "../interfaces";
 
 // DataTable displays the the days listed in rows showing their daily stats.
 // Table supports sorting by columns and has filters and search function .

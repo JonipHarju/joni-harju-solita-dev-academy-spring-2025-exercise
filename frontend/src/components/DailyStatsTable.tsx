@@ -5,7 +5,7 @@ import PaginationControls from "./PaginationControls";
 import DayDetailsModal from "./DayDetailsModal";
 import { buildQueryParams, cleanToNumber } from "../utils/formatters";
 import { getDailyStats, getDayDetails } from "../utils/api";
-import { DailyStat, ModalData } from "../../interfaces";
+import { DailyStat, ModalData } from "../interfaces";
 
 const DailyStatsTableContainer: React.FC = () => {
   // Pending filter states.

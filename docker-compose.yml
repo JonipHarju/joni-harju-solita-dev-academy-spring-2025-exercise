@@ -30,7 +30,7 @@ services:
     environment:
       DATABASE_URL: postgres://academy:academy@db:5432/electricity
     ports:
-      - "3000:3000"
+      - "3010:3000"
 
   frontend:
     build: ./frontend
@@ -39,7 +39,7 @@ services:
     depends_on:
       - backend
     ports:
-      - "80:80" # Nginx default
+      - "8080:80" # Nginx default
 
 volumes:
   postgres_data:

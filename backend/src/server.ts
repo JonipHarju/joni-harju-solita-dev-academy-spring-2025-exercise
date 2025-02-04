@@ -52,7 +52,7 @@ app.get("/", (req, res) => {
 // error handling middleware
 app.use(errorHandler);
 // start the server on port 3000
-app.listen(3000, () => {
-  console.log("Server running on port 3000");
+app.listen(3010, () => {
+  console.log("Server running on port 3010");
 });
 ``;

@@ -32,6 +32,18 @@ const DailyStatsTableContainer: React.FC = () => {
     string | undefined
   >();
 
+  console.log(
+    pendingSearch,
+    pendingMinProduction,
+    pendingMaxProduction,
+    pendingMinConsumption,
+    pendingMaxConsumption,
+    pendingMinPrice,
+    pendingMaxPrice,
+    pendingMinNegativeStreak,
+    pendingMaxNegativeStreak
+  );
+
   // Applied filters.
   // When the use clicks the 'Get Data' button, the pending filters are applied to these states.
   const [appliedFilters, setAppliedFilters] = useState({

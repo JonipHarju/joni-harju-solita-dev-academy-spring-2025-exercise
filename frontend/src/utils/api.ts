@@ -1,12 +1,11 @@
+const backendUrl = process.env.BACKEND_URL || "http://localhost:3010";
+
 export async function getDailyStats(query: string) {
   try {
-    const result = await fetch(
-      `http://localhost:3000/api/daily-stats${query}`,
-      {
-        method: "GET",
-        headers: { "Content-Type": "application/json" },
-      }
-    );
+    const result = await fetch(`${backendUrl}/api/daily-stats${query}`, {
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
+    });
     if (!result.ok) {
       throw new Error(`HTTP error! Status: ${result.status}`);
     }
@@ -20,7 +19,7 @@ export async function getDailyStats(query: string) {
 
 export async function getDayDetails(date: string) {
   try {
-    const result = await fetch(`http://localhost:3000/api/day/${date}`, {
+    const result = await fetch(`${backendUrl}/api/day/${date}`, {
       method: "GET",
       headers: { "Content-Type": "application/json" },
     });

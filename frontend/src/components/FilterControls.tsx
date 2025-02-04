@@ -22,10 +22,7 @@ const FilterControls: React.FC<FilterControlsProps> = (props) => {
         </button>
         {/* modal for the filters. opened if isOpen  */}
         {isOpen && (
-          <div
-            className="fixed inset-0 bg-black/50 flex items-center justify-center z-50"
-            onClick={() => setIsOpen(false)}
-          >
+          <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
             <div className="bg-[#0f172a] text-white p-6 rounded-lg shadow-lg w-11/12 max-w-md max-h-[90vh] overflow-y-auto relative">
               {/* Button to close the modal */}
               <button
@@ -58,63 +55,63 @@ const Filters: React.FC<FiltersProps> = ({ setIsOpen, ...props }) => {
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
       <input
-        type="text"
+        type="date"
         placeholder="Search by date (YYYY-MM-DD)"
         value={props.pendingSearch}
         onChange={(e) => props.setPendingSearch(e.target.value)}
         className="p-2 border border-gray-700 bg-gray-800 text-white w-full rounded"
       />
       <input
-        type="text"
+        type="number"
         placeholder="Min Consumption (M)"
         value={props.pendingMinConsumption ?? ""}
         onChange={(e) => props.setPendingMinConsumption(e.target.value)}
         className="p-2 border border-gray-700 bg-gray-800 text-white w-full rounded"
       />
       <input
-        type="text"
+        type="number"
         placeholder="Max Consumption (M)"
         value={props.pendingMaxConsumption ?? ""}
         onChange={(e) => props.setPendingMaxConsumption(e.target.value)}
         className="p-2 border border-gray-700 bg-gray-800 text-white w-full rounded"
       />
       <input
-        type="text"
+        type="number"
         placeholder="Min Production"
         value={props.pendingMinProduction || ""}
         onChange={(e) => props.setPendingMinProduction(e.target.value)}
         className="p-2 border border-gray-700 bg-gray-800 text-white w-full rounded"
       />
       <input
-        type="text"
+        type="number"
         placeholder="Max Production"
         value={props.pendingMaxProduction || ""}
         onChange={(e) => props.setPendingMaxProduction(e.target.value)}
         className="p-2 border border-gray-700 bg-gray-800 text-white w-full rounded"
       />
       <input
-        type="text"
+        type="number"
         placeholder="Min Price"
         value={props.pendingMinPrice ?? ""}
         onChange={(e) => props.setPendingMinPrice(e.target.value)}
         className="p-2 border border-gray-700 bg-gray-800 text-white w-full rounded"
       />
       <input
-        type="text"
+        type="number"
         placeholder="Max Price (€)"
         value={props.pendingMaxPrice ?? ""}
         onChange={(e) => props.setPendingMaxPrice(e.target.value)}
         className="p-2 border border-gray-700 bg-gray-800 text-white w-full rounded"
       />
       <input
-        type="text"
+        type="number"
         placeholder="Min Negative Streak (hrs)"
         value={props.pendingMinNegativeStreak ?? ""}
         onChange={(e) => props.setPendingMinNegativeStreak(e.target.value)}
         className="p-2 border border-gray-700 bg-gray-800 text-white w-full rounded"
       />
       <input
-        type="text"
+        type="number"
         placeholder="Max Negative Streak (hrs)"
         value={props.pendingMaxNegativeStreak ?? ""}
         onChange={(e) => props.setPendingMaxNegativeStreak(e.target.value)}

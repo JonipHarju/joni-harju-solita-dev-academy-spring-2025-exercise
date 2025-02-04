@@ -2,6 +2,9 @@ version: "3.8"
 
 services:
   db:
+    build:
+      context: ./database
+      dockerfile: Dockerfile
     image: postgres:15-alpine
     container_name: electricity-db
     restart: always
@@ -11,9 +14,6 @@ services:
       POSTGRES_PASSWORD: academy
     ports:
       - "5432:5432"
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-      - ./init-db.sql:/docker-entrypoint-initdb.d/init-db.sql
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U academy -d electricity"]
       interval: 10s
@@ -30,7 +30,10 @@ services:
     environment:
       DATABASE_URL: postgres://academy:academy@db:5432/electricity
     ports:
-      - "3010:3000"
+      - "3010:3010"
+    labels:
+      - traefik.enable=true
+      - "traefik.http.routers.backend.rule=Host(`solita.backend.joniharju.fi`)" # Coolify will automatically generate the FQDN for this backend
 
   frontend:
     build: ./frontend
@@ -38,8 +41,13 @@ services:
     restart: always
     depends_on:
       - backend
+    environment:
+      # If the backend is deployed on Coolify, it will be dynamically set via `SERVICE_FQDN_BACKEND`
+      # If running locally, fallback to "http://localhost:3010"
+      - BACKEND_URL=${SERVICE_FQDN_BACKEND:-http://localhost:3010}
+
     ports:
-      - "8080:80" # Nginx default
+      - "8081:80" # Nginx default
 
 volumes:
   postgres_data:

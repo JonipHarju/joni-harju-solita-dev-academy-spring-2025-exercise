@@ -33,21 +33,21 @@ services:
       - "3010:3010"
     labels:
       - traefik.enable=true
-      - "traefik.http.routers.backend.rule=Host(`solita.backend.joniharju.fi`)" # Coolify will automatically generate the FQDN for this backend
+      - "traefik.http.routers.backend.rule=Host(`solita.backend.joniharju.fi`)"
 
   frontend:
-    build: ./frontend
+    build:
+      context: ./frontend
+      args:
+        VITE_BACKEND_URL: ${VITE_BACKEND_URL} # Pass the VITE_BACKEND_URL to the build
     container_name: electricity-frontend
     restart: always
     depends_on:
       - backend
     environment:
-      # If the backend is deployed on Coolify, it will be dynamically set via `SERVICE_FQDN_BACKEND`
-      # If running locally, fallback to "http://localhost:3010"
-      - BACKEND_URL=${SERVICE_FQDN_BACKEND:-http://localhost:3010}
-
+      - VITE_BACKEND_URL=${VITE_BACKEND_URL:-http://localhost:3010}
     ports:
-      - "8081:80" # Nginx default
+      - "8081:80"
 
 volumes:
   postgres_data:
